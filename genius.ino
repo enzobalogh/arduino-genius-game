@@ -13,18 +13,6 @@
 
 #define TAMANHO_SEQUENCIA 4
 
-/*
-Para fazer com que cada LED tenha um som próprio, é necessário
-fazer uma função para cada nota musical. Além disso na função
-piscaLed() eu preciso de uma verificação pra saber qual
-porta tá sendo recebida no parâmetro tipo:
-int piscaLed(int portaLed){
-if (portaLed == 10){
-//LED vermelho
-tocaBuzzerDó();
-}
-*/
-
 enum Estados{
 	PRONTO_PROX_RODADA,
   	USUARIO_RESPONDE,
@@ -89,16 +77,7 @@ void tocaBuzzerSucesso(){
   noTone(BUZZER); // para o som
   delay(250);
   
-  /*
-  NOTAS:
-  DÓ (C4) → 262 Hz
-RÉ (D4) → 294 Hz
-MI (E4) → 330 Hz
-FÁ (F4) → 349 Hz
-SOL (G4) → 392 Hz
-LÁ (A4) → 440 Hz
-SI (B4) → 494 Hz
-  */
+  
   
 }
 
@@ -230,31 +209,6 @@ void loop(){
 void tocaLedRodada(){
   for(int i = 0;i<rodada;i++){
     piscaLed(sequenciaLuzes[i]);
-    if(i == 0){
-  tone(BUZZER,  262); 
-  delay(250);
-  noTone(BUZZER); 
-  delay(250);
-      
-    } else if(i == 1){
-      tone(BUZZER,  294); 
-  delay(250);
-  noTone(BUZZER); 
-  delay(250);
-      
-    } else if(i == 2){
-      tone(BUZZER,  330); 
-  delay(250);
-  noTone(BUZZER); 
-  delay(250);
-      
-    }
-    else if(i == 3){
-      tone(BUZZER,  349);
-  delay(250);
-  noTone(BUZZER); 
-  delay(250);
-    }
 }
 }
 
@@ -274,11 +228,40 @@ int checaRespostaJogador(){
   return INDEFINIDO;
 }
 
+/*
+  NOTAS:
+  DÓ (C4) → 262 Hz
+RÉ (D4) → 294 Hz
+MI (E4) → 330 Hz
+FÁ (F4) → 349 Hz
+SOL (G4) → 392 Hz
+LÁ (A4) → 440 Hz
+SI (B4) → 494 Hz
+  */
+void tocaSom(int frequencia){
+   tone(BUZZER,  frequencia); 
+  delay(250);
+  noTone(BUZZER); 
+  delay(50);
+}
+
 int piscaLed(int portaLed){
   digitalWrite(portaLed, HIGH);
   delay(500);
   digitalWrite(portaLed, LOW);
   delay(500);  
+  if(portaLed == LED_VERMELHO){
+    tocaSom(262);//DÓ
+    
+  }else if(portaLed == LED_VERDE){
+    tocaSom(294);//RÉ
+    
+  } else if(portaLed == LED_AMARELO){
+    tocaSom(330);//MI
+    
+  } else if(portaLed == LED_AZUL){
+    tocaSom(349);//FÁ
+  }
   return portaLed;
 }
 
